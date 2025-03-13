@@ -45,33 +45,64 @@ public final class Image {
     }
 
     public List<Color> highlightColumn(int i) {
-        if( i < 0 || i >= columns.size()){
+        if (i < 0 || i >= columns.size()) {
             throw new IndexOutOfBoundsException("Invalid column index");
-
-        }
-
-        List<Color> highlightedColumn = new ArrayList<>(columns.get(i));
-        for (int j = 0; j < height; j++){
-            Color c = highlightedColumn.get(j);
-            highlightedColumn.set(j, new Color(255, c.getGreen(), c.getBlue()));
         }
         
-        return highlightedColumn;
+        List<Color> column = columns.get(i);
+        for (int j = 0; j < height; j++) {
+            Color pixel = column.get(j);
+            int red = pixel.getRed();
+            int green = pixel.getGreen();
+            int blue = pixel.getBlue();
+            column.set(j, new Color(red, green, blue));
+        }
+        
+        return column;
     }
 
     public List<Color> removeColumn(int i) {
-        if(i >= 0 && i <= columns.size()){
-            return columns.remove(i);     
+        if (i < 0 || i >= columns.size()) {
+            throw new IndexOutOfBoundsException("Invalid column index");
         }
-        return List.of(null);
+        
+        List<Color> removed = columns.remove(i);
+        width--;
+        return removed;
     }
 
     public void addColumn(int index, List<Color> column) {
-        //TODO
+        if (index < 0 || index > columns.size()) {
+            throw new IndexOutOfBoundsException("Invalid column index");
+        }
+        
+        if (column == null || column.size() != height) {
+            throw new IllegalArgumentException("Column must have the same height as the image");
+        }
+        
+        columns.add(index, new ArrayList<>(column));
+        width++;
     }
 
     public int getGreenest() {
-        //TODO
-        return 0;
+        int greenestIndex = -1;
+        int maxGreenValue = -1;
+        
+        for (int i = 0; i < columns.size(); i++) {
+            List<Color> column = columns.get(i);
+            int totalGreen = 0;
+            
+            for (Color pixel : column) {
+                totalGreen += pixel.getGreen();
+            }
+            
+            if (totalGreen > maxGreenValue) {
+                maxGreenValue = totalGreen;
+                greenestIndex = i;
+            }
+        }
+        
+        return greenestIndex;
+        // return 0;
     }
 }

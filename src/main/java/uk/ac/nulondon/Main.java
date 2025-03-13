@@ -20,16 +20,47 @@ public final class Main {
 
 
     private void undo(Scanner scan) throws IOException {
-        //todo
+        if (editor.canUndo()) {
+            boolean success = editor.undo();
+            if (success) {
+                System.out.println("Undo operation successful");
+                System.out.printf("The image now contains %d columns%n", editor.getWidth());
+            } else {
+                System.out.println("Undo operation failed");
+            }
+        } else {
+            System.out.println("Nothing to undo");
+        }
     }
 
     private void removeSpecific(Scanner scan, String choice) throws IOException {
-        
-        //todo
+        try {
+            // Extract the column index from the command (e.g., "r5" -> 5)
+            String indexStr = choice.substring(1);
+            int columnIndex = Integer.parseInt(indexStr);
+            
+            boolean success = editor.removeColumn(columnIndex);
+            if (success) {
+                System.out.printf("Successfully removed column %d%n", columnIndex);
+                System.out.printf("The image now contains %d columns%n", editor.getWidth());
+            } else {
+                System.out.printf("Failed to remove column %d (index out of bounds)%n", columnIndex);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid column number format. Please use r[number] (e.g., r5)");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Invalid column index: " + e.getMessage());
+        }
     }
 
     private void removeGreenest(Scanner scan) throws IOException {
-        //todo
+        int greenestIndex = editor.removeGreenestColumn();
+        if (greenestIndex >= 0) {
+            System.out.printf("Successfully removed the greenest column (index: %d)%n", greenestIndex);
+            System.out.printf("The image now contains %d columns%n", editor.getWidth());
+        } else {
+            System.out.println("Failed to remove the greenest column");
+        }
     }
 
     private void run() throws IOException {
