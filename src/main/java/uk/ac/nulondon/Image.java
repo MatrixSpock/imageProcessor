@@ -45,25 +45,11 @@ public final class Image {
     }
 
     public List<Color> highlightColumn(int i) {
-        if( i < 0 || i >= columns.size()){
-            throw new IndexOutOfBoundsException("Invalid column index");
-
-        }
-
-        List<Color> highlightedColumn = new ArrayList<>(columns.get(i));
-        for (int j = 0; j < height; j++){
-            Color c = highlightedColumn.get(j);
-            highlightedColumn.set(j, new Color(255, c.getGreen(), c.getBlue()));
-        }
-        
-        return highlightedColumn;
+        //TODO
     }
 
     public List<Color> removeColumn(int i) {
-        if(i >= 0 && i <= columns.size()){
-            return columns.remove(i);     
-        }
-        return List.of(null);
+        //TODO
     }
 
     public void addColumn(int index, List<Color> column) {
