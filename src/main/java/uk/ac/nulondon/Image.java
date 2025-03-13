@@ -46,10 +46,12 @@ public final class Image {
 
     public List<Color> highlightColumn(int i) {
         //TODO
+        return null;
     }
 
     public List<Color> removeColumn(int i) {
         //TODO
+        return null;
     }
 
     public void addColumn(int index, List<Color> column) {
