@@ -15,7 +15,8 @@ import java.util.List;
 public final class ImageEditor {
 
     private Image image;
-
+    private final Deque<List<Color>> removedColumns = new ArrayDeque<>();
+    private final Deque<Integer> removedIndices = new ArrayDeque<>();
 
     /**
      * Loads the image from the file path. PLEASE DO NOT CHANGE
@@ -38,5 +39,28 @@ public final class ImageEditor {
         return image.getWidth();
     }
 
+    public void removeColumn(int index) {
+        removedColumns.push(image.removeColumn(index));
+        removedIndices.push(index);
+    }
+    
+    public void undo() {
+        if (!removedColumns.isEmpty()) {
+            int index = removedIndices.pop();
+            List<Color> column = removedColumns.pop();
+            image.addColumn(index, column);
+            System.out.println("Undo successful.");
+        } else {
+            System.out.println("Nothing to undo.");
+        }
+    }
+
+    public List<Color> highlightColumn(int i) {
+        return image.highlightColumn(i);
+    }
+
+    public int getGreenestColumn() {
+        return image.getGreenest();
+    }
 
 }

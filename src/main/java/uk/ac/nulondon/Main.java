@@ -19,18 +19,44 @@ public final class Main {
     }
 
 
-    private void undo(Scanner scan) throws IOException {
-        //todo
+    private void undo(Scanner scan) {
+        editor.undo();
     }
+    
 
-    private void removeSpecific(Scanner scan, String choice) throws IOException {
-        
-        //todo
+    private void removeSpecific(Scanner scan, String choice) {
+        try {
+            int index = Integer.parseInt(choice.substring(1)); // Extract number
+            editor.highlightColumn(index);
+            System.out.println("Column " + index + " highlighted. Press 'd' to delete.");
+            
+            String input = scan.next();
+            if ("d".equalsIgnoreCase(input)) {
+                editor.removeColumn(index);
+                System.out.println("Column " + index + " removed.");
+            }
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            System.out.println("Invalid column index.");
+        }
     }
+    
 
-    private void removeGreenest(Scanner scan) throws IOException {
-        //todo
+    private void removeGreenest(Scanner scan) {
+        int greenestIndex = editor.getGreenestColumn();
+        if (greenestIndex != -1) {
+            editor.highlightColumn(greenestIndex);
+            System.out.println("Greenest column highlighted. Press 'd' to delete.");
+            
+            String input = scan.next();
+            if ("d".equalsIgnoreCase(input)) {
+                editor.removeColumn(greenestIndex);
+                System.out.println("Greenest column removed.");
+            }
+        } else {
+            System.out.println("No columns found.");
+        }
     }
+    
 
     private void run() throws IOException {
         //Scanner is closeable, so we put it into try-with-resources
