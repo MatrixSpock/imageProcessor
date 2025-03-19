@@ -20,16 +20,28 @@ public final class Main {
 
 
     private void undo(Scanner scan) throws IOException {
-        //todo
+        // Call the editor's undo
+        editor.undo();
+        System.out.println("Undo complete. The image now has " + editor.getWidth() + " columns.");
     }
 
     private void removeSpecific(Scanner scan, String choice) throws IOException {
         
-        //todo
+        try {
+            // Example choice: "r10" => parse index = 10
+            int index = Integer.parseInt(choice.substring(1));
+            editor.removeColumn(index);
+            System.out.println("Column " + index + " removed. Now " + editor.getWidth() + " columns remain.");
+        } catch (NumberFormatException ex) {
+            System.out.println("Invalid input. Please use r[number], for example: r5");
+        } catch (IndexOutOfBoundsException ex) {
+            System.out.println("That column index is out of range. " + ex.getMessage());
+        }
     }
 
     private void removeGreenest(Scanner scan) throws IOException {
-        //todo
+        editor.removeGreenestColumn();
+        System.out.println("Greenest column removed. Now " + editor.getWidth() + " columns remain.");
     }
 
     private void run() throws IOException {
