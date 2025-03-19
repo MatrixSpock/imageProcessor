@@ -45,18 +45,23 @@ public final class Image {
     }
 
     public List<Color> highlightColumn(int i) {
+        // Return the original column (for the test's verification) but change each color in-place to produce a highlighted version (Example: set the red channel to 255 while keeping green and blue the same).
         //TODO
+
     }
 
     public List<Color> removeColumn(int i) {
+        // Remove the column at index i from the list of columns and return it.
         //TODO
     }
 
     public void addColumn(int index, List<Color> column) {
+        // insert a column at the specified index.
         //TODO
     }
 
     public int getGreenest() {
+        // Compute which column has the largest sum of green-channel values.
         //TODO
         return 0;
     }
