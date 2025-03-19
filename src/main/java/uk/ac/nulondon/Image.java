@@ -14,7 +14,6 @@ public final class Image {
     private static final int HIGHLIGHT_GREEN = 0;
     private static final int HIGHLIGHT_BLUE = 0;
 
-
     public Image(BufferedImage img) {
         width = img.getWidth();
         height = img.getHeight();
@@ -48,24 +47,28 @@ public final class Image {
     }
 
     public List<Color> highlightColumn(int i) {
-        // Return the original column (for the test's verification) but change each color
+        // Return the original column (for the test's verification) but change each
+        // color
         // in-place to produce a highlighted version (Example: set the red channel to
         // 255 while keeping green and blue the same).
 
-        // Error wih 
+        // Error wih
 
         // Index check
         if (i < 0 || i >= width) {
             throw new IndexOutOfBoundsException("Invalid column index for highlight: " + i);
         }
 
-        // Copy original column so we can return it
-        List<Color> originalColumn = new ArrayList<>(columns.get(i));
+        List<Color> originalColumn = new ArrayList<>();
 
-        // Modify each color in-place to give a "highlight" effect
+        // Copy the original column into a new list, so we can return it later
+        for (Color c : columns.get(i)) {
+            // Copy each color by its RGB
+            originalColumn.add(new Color(c.getRGB()));
+        }
+
+        // Now highlight in place
         for (int row = 0; row < height; row++) {
-            Color c = columns.get(i).get(row);
-            // Example highlight: set red to 255, keep green/blue
             columns.get(i).set(row, new Color(HIGHLIGHT_RED, HIGHLIGHT_GREEN, HIGHLIGHT_BLUE));
         }
 

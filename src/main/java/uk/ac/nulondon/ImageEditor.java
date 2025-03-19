@@ -1,6 +1,5 @@
 package uk.ac.nulondon;
 
-
 import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -15,9 +14,9 @@ public final class ImageEditor {
 
     private Image image;
 
-
     /**
      * Loads the image from the file path. PLEASE DO NOT CHANGE
+     *
      * @param filePath File path, e. g. /home/img.png
      * @throws IOException If the file is missing or cannot be read
      */
@@ -32,13 +31,12 @@ public final class ImageEditor {
         ImageIO.write(img, "png", new File(filePath));
     }
 
-
     public int getWidth() {
         return image.getWidth();
     }
 
-     // Stack to store undone columns so we can restore if needed
-     private static class RemovedColumn {
+    // Stack to store undone columns so we can restore if needed
+    private static class RemovedColumn {
         private int index;
         private List<Color> column;
 
@@ -50,30 +48,37 @@ public final class ImageEditor {
 
     private final Deque<RemovedColumn> undoStack = new ArrayDeque<>();
 
-
     /**
      * Remove the greenest column: find it, highlight it,
      * remove it, and push on the undo stack.
      */
     public void removeGreenestColumn() {
         int index = image.getGreenest();
-        image.highlightColumn(index);
-        List<Color> removedCol = image.removeColumn(index);
 
-        // Keep track so we can undo if needed
-        undoStack.push(new RemovedColumn(index, removedCol));
+        // same pattern
+        List<Color> originalColumn = image.highlightColumn(index);
+        undoStack.push(new RemovedColumn(index, originalColumn));
+        image.removeColumn(index);
     }
 
-     /**
+    /**
      * Remove the specified column index: highlight it, remove it,
      * and push on the undo stack.
      *
      * @param index The column to remove.
      */
     public void removeColumn(int index) {
-        image.highlightColumn(index);
-        List<Color> removedCol = image.removeColumn(index);
-        undoStack.push(new RemovedColumn(index, removedCol));
+        // 1. highlightColumn modifies the column in-place
+        // but *returns* the unmodified original
+        List<Color> originalColumn = image.highlightColumn(index);
+
+        // 3. Push the *original* list (not the highlighted one)
+        undoStack.push(new RemovedColumn(index, originalColumn));
+
+        // 2. removeColumn returns the highlighted version,
+        // but we don’t use it for undo
+        image.removeColumn(index);
+
     }
 
     /**
