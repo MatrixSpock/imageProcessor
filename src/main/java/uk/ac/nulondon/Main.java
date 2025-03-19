@@ -26,7 +26,7 @@ public final class Main {
     }
 
     private void removeSpecific(Scanner scan, String choice) throws IOException {
-        
+
         try {
             // Example choice: "r10" => parse index = 10
             int index = Integer.parseInt(choice.substring(1));

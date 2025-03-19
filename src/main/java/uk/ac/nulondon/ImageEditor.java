@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
 
@@ -40,8 +39,8 @@ public final class ImageEditor {
 
      // Stack to store undone columns so we can restore if needed
      private static class RemovedColumn {
-        int index;
-        List<Color> column;
+        private int index;
+        private List<Color> column;
 
         RemovedColumn(int index, List<Color> column) {
             this.index = index;
@@ -64,11 +63,11 @@ public final class ImageEditor {
         // Keep track so we can undo if needed
         undoStack.push(new RemovedColumn(index, removedCol));
     }
-    
+
      /**
      * Remove the specified column index: highlight it, remove it,
      * and push on the undo stack.
-     * 
+     *
      * @param index The column to remove.
      */
     public void removeColumn(int index) {
