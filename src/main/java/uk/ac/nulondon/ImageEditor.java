@@ -87,7 +87,9 @@ public final class ImageEditor {
      */
     public void undo() {
         if (!undoStack.isEmpty()) {
+            // Pop the last removed column from the stack,
             RemovedColumn last = undoStack.pop();
+            // Now lets add the column to the original image.
             image.addColumn(last.index, last.column);
         }
     }

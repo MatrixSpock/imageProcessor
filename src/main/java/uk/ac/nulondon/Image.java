@@ -106,20 +106,31 @@ public final class Image {
     }
 
     public int getGreenest() {
-        // Compute which column has the largest sum of green-channel values.
+        // We'll store the maximum sum of green-channel values seen so far
+        // and also track which column has that maximum sum.
         long maxSum = Long.MIN_VALUE;
         int greenestIndex = 0;
-
+    
+        // Iterate over each column in the image
         for (int col = 0; col < width; col++) {
+            // We'll accumulate the green value from every pixel in the column
             long sumGreen = 0;
+    
+            // Sum up the green values of all pixels in the current column
             for (Color c : columns.get(col)) {
                 sumGreen += c.getGreen();
             }
+    
+            // If this column's total green value is larger than our current maximum,
+            // update both the maxSum and the greenestIndex accordingly
             if (sumGreen > maxSum) {
                 maxSum = sumGreen;
                 greenestIndex = col;
             }
         }
+    
+        // After checking all columns, return the one with the highest green-sum
         return greenestIndex;
     }
+    
 }
